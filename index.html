@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FILMERIA</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@700&family=Hina+Mincho&family=IBM+Plex+Serif:wght@600;700&family=Inconsolata:wght@600&family=Jura:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <a href="index.html" class="logo">FILMERIA</a>
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="search" class="search-input" id="search-field">
+            </div>
+            <nav class="main-nav">
+                <a href="#" class="nav-link" data-type="all">Все</a>
+                <a href="#" class="nav-link" data-type="movie">Фильмы</a>
+                <a href="#" class="nav-link" data-type="tv">Сериалы</a>
+            </nav>
+        </header>
+
+        <section class="hero"></section>
+
+        <div class="quote">
+            <p>Кино — это жизнь, из которой вырезали всё скучное</p>
+        </div>
+
+        <main class="movie-grid" id="movie-container">
+            <div class="movie-item category-movie">
+                <div class="poster-box"><img src="img/venom.png" alt="Веном"><div class="rating">8.5</div></div>
+                <h3 class="movie-title">Веном</h3>
+            </div>
+            <div class="movie-item category-movie">
+                <div class="poster-box"><img src="img/interstellar.png" alt="Интерстеллар"><div class="rating">8.6</div></div>
+                <h3 class="movie-title">Интерстеллар</h3>
+            </div>
+            <div class="movie-item category-movie">
+                <div class="poster-box"><img src="img/polis.png" alt="Зверополис 2"><div class="rating">8.0</div></div>
+                <h3 class="movie-title">Зверополис 2</h3>
+            </div>
+            <div class="movie-item category-movie">
+                <div class="poster-box"><img src="img/f1.png" alt="F1"><div class="rating">8.6</div></div>
+                <h3 class="movie-title">F1</h3>
+            </div>
+            <div class="movie-item category-movie">
+                <div class="poster-box"><img src="img/kraken.png" alt="Кракен"><div class="rating">7.8</div></div>
+                <h3 class="movie-title">Кракен</h3>
+            </div>
+            <div class="movie-item category-movie">
+                <div class="poster-box"><img src="img/kvasha.png" alt="Простоквашино"><div class="rating">9.2</div></div>
+                <h3 class="movie-title">Простоквашино</h3>
+            </div>
+
+            <div class="movie-item category-tv">
+                <div class="poster-box"><img src="img/vovsetajkie.png" alt="Во все тяжкие"><div class="rating">9.5</div></div>
+                <h3 class="movie-title">Во все тяжкие</h3>
+            </div>
+            <div class="movie-item category-tv">
+                <div class="poster-box"><img src="img/nogi.png" alt="Встать на ноги"><div class="rating">8.7</div></div>
+                <h3 class="movie-title">Встать на ноги</h3>
+            </div>
+            <div class="movie-item category-tv">
+                <div class="poster-box"><img src="img/soprano.png" alt="Сопрано"><div class="rating">9.4</div></div>
+                <h3 class="movie-title">Сопрано</h3>
+            </div>
+            <div class="movie-item category-tv">
+                <div class="poster-box"><img src="img/zveri.png" alt="Зверобой"><div class="rating">7.9</div></div>
+                <h3 class="movie-title">Зверобой</h3>
+            </div>
+            <div class="movie-item category-tv">
+                <div class="poster-box"><img src="img/vesna.png" alt="Черная весна"><div class="rating">8.8</div></div>
+                <h3 class="movie-title">Черная весна</h3>
+            </div>
+            <div class="movie-item category-tv">
+                <div class="poster-box"><img src="img/kambek.png" alt="Камбек"><div class="rating">8.8</div></div>
+                <h3 class="movie-title">Камбек</h3>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('search-field');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const movieItems = document.querySelectorAll('.movie-item');
+        
+        let currentCategory = 'all';
+
+        // Функция фильтрации (Категория + Поиск)
+        function applyFilters() {
+            const searchText = searchInput.value.toLowerCase();
+
+            movieItems.forEach(item => {
+                const title = item.querySelector('.movie-title').innerText.toLowerCase();
+                const isMovie = item.classList.contains('category-movie');
+                const isTV = item.classList.contains('category-tv');
+
+                // Проверка категории
+                let matchesCategory = false;
+                if (currentCategory === 'all') matchesCategory = true;
+                if (currentCategory === 'movie' && isMovie) matchesCategory = true;
+                if (currentCategory === 'tv' && isTV) matchesCategory = true;
+
+                // Проверка поиска
+                const matchesSearch = title.includes(searchText);
+
+                // Показываем только если совпало и то, и другое
+                if (matchesCategory && matchesSearch) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Слушатель для поиска
+        searchInput.addEventListener('input', applyFilters);
+
+        // Слушатель для кнопок меню
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentCategory = link.getAttribute('data-type');
+                applyFilters();
+            });
+        });
+    </script>
+</body>
+</html>
